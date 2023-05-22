@@ -48,6 +48,17 @@ public class UserDAOImpl implements UserDAO {
                 session.close();
             }
         }
+        @Override
+        public void addRoleToUser(User user, Role role) {
+            try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            User updateUser = session.find(User.class, user.getId());
+            Role roleToUser = session.find(Role.class, role.getId());
+            updateUser.getRoles().add(roleToUser);
+            transaction.commit();
+            session.close();
+        }
+    }
     }
 
 
